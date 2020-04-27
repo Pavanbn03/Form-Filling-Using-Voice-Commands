@@ -33,6 +33,28 @@ var vocieRequestHandlers = [
             $("#phDiv").removeClass("has-error");    
         }
     }),
+	new VoiceRequestHandler([/^name\s+([ a-z]+)$/gi], function(matchGroups) { updateName(matchGroups[1]); 
+    }),
+	
+	new VoiceRequestHandler([
+       /^father\s?name\s*([ a-z]+)$/gi    
+    ], function(matchGroups) {
+        updateFatherName(matchGroups[1]); 
+    }),
+	
+	 new VoiceRequestHandler([
+       /^teaching\s?experience\s*([- 0-9]+)$/gi  
+    ], function(matchGroups) {
+        updateExperience(matchGroups[1]); 
+    }),
+	
+	new VoiceRequestHandler([
+       /^mother\s?name\s*([ a-z]+)$/gi    
+    ], function(matchGroups) {
+        updateMotherName(matchGroups[1]); 
+    }),
+	
+	
     new VoiceRequestHandler([
         /^date\s?of\s?birth\s*(\d{1,2})(th|rd|st)*\s*(jan|January|Feb|February|March|April|June|July|August|September|October|November|December)\s*(\d{4})\s*$/gi,
         /^\s*date of birth\s*(jan|January|Feb|February|March|April|June|July|August|September|October|November|December)\s*(\d{1,2})(th|rd|st)*\s*(\d{4})$/gi
@@ -73,15 +95,13 @@ var vocieRequestHandlers = [
         updateAddress(null, null, matchGroups[1], null, null); 
     }),
     new VoiceRequestHandler([
-        /^state\s+(Karnataka|Andhra Pradesh|Kerala|Tamil Nadu|Madhya Pradesh)$/gi     
+        /^state\s+(Karnataka|Andhra Pradesh|Kerala|Tamil Nadu)$/gi     
     ], function(matchGroups) {
         updateAddress(null, null, null, matchGroups[1], null);
     }),
     new VoiceRequestHandler([
         /^zip\s?code\s+(\d{6})$/gi     
     ], function(matchGroups) {
-        console.log("zipcode fun");
-        
         updateAddress(null, null, null, null, matchGroups[1]);
     }),
     new VoiceRequestHandler([
@@ -89,6 +109,21 @@ var vocieRequestHandlers = [
     ], function(matchGroups) {
         updateGender(matchGroups[1]);
     }),
+	
+	 new VoiceRequestHandler([
+        
+		/^admission\s+(government|management|CET)$/gi   
+    ], function(matchGroups) {
+        updateAdmission(matchGroups[1]);
+    }),
+	
+	new VoiceRequestHandler([
+        
+		/^department\s+(computer science|information science|mechanical|electronics)$/gi   
+    ], function(matchGroups) {
+        updatedepartment(matchGroups[1]);
+    }),
+	
     new VoiceRequestHandler([
         /^I agree\s*$/gi,
         /^I agree to the Terms and Conditions$/gi    
@@ -119,6 +154,44 @@ var vocieRequestHandlers = [
             voiceAssistant.say("you didn't select any text to read");
         }
     }),
+	
+	
+	 new VoiceRequestHandler([
+        "scroll down",
+        "down"
+    ], function() {
+        ScrollDown();
+    }),
+	
+		 new VoiceRequestHandler([
+        "scroll up",
+        "up"
+    ], function() {
+        Scrollup();
+    }),
+	
+	new VoiceRequestHandler([
+        "open student",
+        "student admission"
+    ], function() {
+        openstudentlink();
+    }),
+	
+	new VoiceRequestHandler([
+        "open staff",
+        "staff details"
+
+    ], function() {
+        openstafflink();
+    }),
+	
+	new VoiceRequestHandler([
+        "open home",
+        "home page"
+    ], function() {
+        openhome();
+    }),
+	
     new VoiceRequestHandler([
         "close",
         "close it"
@@ -137,15 +210,19 @@ var vocieRequestHandlers = [
         reset();
     }),
     new VoiceRequestHandler([
-        /^open tab (home|settings|contact)$/gi,
-        /^open (home|settings|contact) tab$/gi,
-        /^open menu (home|settings|contact)$/gi,
-        /^open (home|settings|contact) menu$/gi,
-        /^navigate to (home|settings|contact).*$/gi, 
-        /^navigate to tab (home|settings|contact)$/gi, 
+        /^open tab (home|settings|contact|Student)$/gi,
+        /^open (home|settings|contact|Student) tab$/gi,
+        /^open menu (home|settings|contact|Student)$/gi,
+        /^open (home|settings|contact|Student) menu$/gi,
+		
+        /^navigate to (home|settings|contact|Student).*$/gi, 
+        /^navigate to tab (home|settings|contact|staff)$/gi, 
+		
     ], function(matchGroups) {
         toggleTab(matchGroups[1]);
     }),
+	
+	
     new VoiceRequestHandler([
         "Hey how are you doing today",
         "Hello", 
@@ -160,6 +237,28 @@ function welcomeMessage() {
     voiceAssistant.say("Hey " + nickName + "! I am here to assist you filling the form below. Please say field name followed by value to fill it. For example to fill Phone number.  Say phone number 234-456-2456");
 }
 
+
+function updateName(name) {
+    $("#Name").val(name);
+}
+
+
+function updateFatherName(FatherName) {
+    $("#fatherName").val(FatherName);
+}
+
+function updateExperience(Experience) {
+    $("#experience").val(Experience);
+}
+
+
+
+function updateMotherName(MotherName) {
+    $("#motherName").val(MotherName);
+}
+
+
+
 function updatePhone(phoneNumber) {
     $("#phoneNumber").val(phoneNumber);
 }
@@ -169,6 +268,7 @@ function updateDOB(date, month, year) {
     $("#month").val(month.capitalizeFirstLetter());
     $("#year").val(year);   
 }
+
 function updateAddress(addressLine, unit, city, state, zip) {
     if(addressLine) {
         $("#postalAddress").val(addressLine.toTitleCase());
@@ -190,6 +290,19 @@ function updateAddress(addressLine, unit, city, state, zip) {
 function updateGender(gender) {
     $('input:radio[name=genderRadios]').val([gender.toLowerCase()]);
 }
+
+function updateAdmission(admission) {
+    $('input:radio[name=admissionRadios]').val([admission]);
+}
+
+function updatedepartment(department) {
+    $('input:radio[name=departmentRadios]').val([department.toLowerCase()]);
+}
+
+
+
+
+
 
 function agreeToTheTermsAndCondition(){
     $("#tnc").prop('checked', true);
@@ -241,8 +354,33 @@ function closeTnCPopup() {
     $("#tncClose").click();
 }
 
+function ScrollDown(){
+window.scrollBy(0, 500);	
+}
+
+function Scrollup(){
+window.scrollBy(0,-500);	
+}
+
+function openstudentlink(){
+window.open('admission.html', '_self');	
+}
+
+function openstafflink(){
+window.open('staff.html', '_self');	
+}
+
+
+function openhome(){
+window.open('index.html', '_self');	
+}
+
+
+
 function toggleTab(tab) {
     $("#" + tab).click();
+	$("#").click();
+	
 }
 
 function getSelectionText() {

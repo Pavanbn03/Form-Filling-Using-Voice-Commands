@@ -124,22 +124,17 @@
             <form id="infoForm" class="form-horizontal">
 			
 			
-			  <div id="gDiv"  class="form-group">
-                    <label class="control-label col-xs-3"> <b> Admission Qouta: </b></label>
+			  <div id="ADiv"  class="form-group">
+                    <label class="control-label col-xs-3"> <b> Admission through: </b></label>
                     <div class="col-xs-2">
                         <label class="radio-inline">
-                            <input id="cet" type="radio" name="genderRadios" value="male"> CET
+                            <input id="CET" type="radio" name="admissionRadios" value="government"> Govt
                         </label>
                     </div>
-                    <div class="col-xs-2">
-                        <label class="radio-inline">
-                            <input id="comdek" type="radio" name="genderRadios" value="female"> COMED-K
-                        </label>
-                    </div>
-					
+                   				
 					<div class="col-xs-2">
                         <label class="radio-inline">
-                            <input id="comdek" type="radio" name="genderRadios" value="female"> Management Seat
+                            <input id="comdek" type="radio" name="admissionRadios" value="management"> Management Seat
                         </label>
                     </div>
                 </div>
@@ -154,14 +149,14 @@
 				<div id="FatherName" class="form-group">
                     <label class="control-label col-xs-3" for="FatherName">Father Name:</label>
                     <div class="col-xs-9">
-                        <input type="text" class="form-control" id="FatherName" placeholder="Your Father Name">
+                        <input type="text" class="form-control" id="fatherName" placeholder="Your Father Name">
                     </div>
                 </div>
 				
 				<div id="MotherName" class="form-group">
                     <label class="control-label col-xs-3" for="Name">Mother Name:</label>
                     <div class="col-xs-9">
-                        <input type="text" class="form-control" id="MotherName" placeholder="Your Mother Name">
+                        <input type="text" class="form-control" id="motherName" placeholder="Your Mother Name">
                     </div>
                 </div>
 				
@@ -393,7 +388,7 @@
             requestHandlers: vocieRequestHandlers,
             silentOnUnknownRequest: true,
             callBackAfterReady: function() {
-                voiceAssistant.say("Hello welcome Form Filling Using Voice Commands");
+                voiceAssistant.say("Hello Fill Student Details");
                 loadVoices();
             },
             onListeningStarts: function() {
